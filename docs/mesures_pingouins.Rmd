@@ -1,0 +1,21 @@
+---
+title: "Pingouins de l'archipel Palmer"
+author: Jonathan Kitt
+date: 2022-11-14
+output: html_document
+---
+
+```{r}
+pingouins <- read.csv("../raw/pingouins.csv", check.names = FALSE)
+```
+
+Ce tableau contient **`r nrow(pingouins)`** lignes.
+
+
+
+Le résultat de l'opération 2 + 2 est `r 2 + 2`
+
+```{r echo=TRUE, eval=FALSE}
+Le résultat de 2 + 2 est `r 2 + 2`
+```
+Le résultat de 2 + 2 est `r 2 + 2`

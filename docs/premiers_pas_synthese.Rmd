@@ -1,0 +1,16 @@
+---
+title: "Premiers pas avec R et RStudio"
+output: pdf_document
+---
+
+# Introduction
+
+<br>
+
+- R est un **langage** de programmation statistique.  
+
+- On désigne également par R le **logiciel** qui utilise ce langage.  
+
+- **RStudio** est une interface graphique permettant d'interagir avec R.
+
+![](E:/ateliers_codons/ateliers-codons.netlify/posts/02-premiers-pas-avec-r/img/rstudio_10.png)
