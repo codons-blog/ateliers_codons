@@ -2,20 +2,147 @@
 title: "Pingouins de l'archipel Palmer"
 author: Jonathan Kitt
 date: 2022-11-14
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    theme: flatly
 ---
 
-```{r}
-pingouins <- read.csv("../raw/pingouins.csv", check.names = FALSE)
+***
+
+# Introduction
+
+Le fichier `pingouins.csv` contient des mesures pour [trois espèces de pingouins vivant sur l'Archipel Palmer en Antarctique](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090081#s2).
+
+![[Dessin de @allison_horst](https://allisonhorst.com/)](../figs/pingouins.png){width="50%"}
+
+# Description des données
+
+```{r, importer donnees, echo=FALSE}
+# Importer les donnees sans afficher le code
+pingouins <- read.csv("../data/pingouins_propre.csv")
 ```
 
-Ce tableau contient **`r nrow(pingouins)`** lignes.
+Le jeu de données contient **`r nrow(pingouins)` observations** et **`r ncol(pingouins)` variables**.
 
+Les mesures concernent **trois espèces** de pingouins : 
 
+- *`r sort(unique(pingouins$espece))[1]`*  
 
-Le résultat de l'opération 2 + 2 est `r 2 + 2`
+- *`r sort(unique(pingouins$espece))[2]`*  
 
-```{r echo=TRUE, eval=FALSE}
-Le résultat de 2 + 2 est `r 2 + 2`
+- *`r sort(unique(pingouins$espece))[3]`*
+
+Ces pingouins vivent sur **trois îles** : 
+
+- `r sort(unique(pingouins$ile))[1]` 
+
+- `r sort(unique(pingouins$ile))[2]`  
+
+- `r sort(unique(pingouins$ile))[3]`
+
+Les individus se répartissent de la façon suivante : 
+
+```{r, repartition individus, echo=FALSE, comment=""}
+# Tableau de la répartition des individus
+table(pingouins$espece, pingouins$ile)
 ```
-Le résultat de 2 + 2 est `r 2 + 2`
+
+Les variables sont les suivantes : 
+
+| variable                | type                       | exemple             |
+| :---------------------: | :------------------------: | :-----------------: |
+| `r names(pingouins)[1]` | `r typeof(pingouins[, 1])` | `r pingouins[1, 1]` |
+| `r names(pingouins)[2]` | `r typeof(pingouins[, 2])` | `r pingouins[1, 2]` |
+| `r names(pingouins)[3]` | `r typeof(pingouins[, 3])` | `r pingouins[1, 3]` |
+| `r names(pingouins)[4]` | `r typeof(pingouins[, 4])` | `r pingouins[1, 4]` |
+| `r names(pingouins)[5]` | `r typeof(pingouins[, 5])` | `r pingouins[1, 5]` |
+| `r names(pingouins)[6]` | `r typeof(pingouins[, 6])` | `r pingouins[1, 6]` |
+
+Les données se présentent comme ci-dessous : 
+
+```{r, apercu donnees, echo=FALSE}
+knitr::kable(head(pingouins, 3))
+```
+
+# Représentation des données 
+
+## Nombre d'individus par espèce
+
+Quelle est l'espèce la plus représentée ?
+
+```{r, nombre individus, echo=FALSE}
+# Barplot : nombre d'individus par espece 
+barplot(sort(table(pingouins$espece), decreasing = TRUE),
+        col = c("Adelie" = "darkorange",
+                "Chinstrap" = "cyan4",
+                "Gentoo" = "purple"),
+        border = NA,
+        main = "Pingouins de l'archipel Palmer",
+        ylab = "Nombre d'individus par espèce",
+        ylim = c(0, 200))
+```
+
+## Rapport entre la longueur et la hauteur du bec
+
+Les mesures du bec permettent-elles de différencier les espèces ?
+
+```{r, ratio bec, echo=FALSE}
+# Calculer le ratio entre la longueur et la hauteur du bec
+pingouins$ratio_bec <- round(pingouins$longueur_bec_mm / pingouins$hauteur_bec_mm,
+                             digits = 2)
+
+# Boxplot : ratio du bec en fonction de l'espece
+boxplot(pingouins$ratio_bec ~ pingouins$espece,
+        col = NA,
+        border = c("Adelie" = "darkorange",
+                   "Chinstrap" = "cyan4",
+                   "Gentoo" = "purple"),
+        pch = 20,
+        main = "Rapport entre la longueur et la hauteur du bec",
+        xlab = "",
+        ylab = "Ratio")
+```
+
+## Distribution de la masse corporelle
+
+Comment se distribue la masse corporelle de l'ensemble des pingouins ?
+
+```{r, distribution masse, echo=FALSE}
+# Histogramme : distribution de la masse corporelle
+hist(pingouins$masse_corporelle_g / 1000,
+     breaks = 20,
+     col = "lightblue",
+     border = "darkblue",
+     ylim = c(0, 50),
+     main = "Distribution de la masse corporelle",
+     xlab = "Masse (kgs)",
+     ylab = "Fréquence")
+```
+
+## Relation entre la longueur des ailes et la longueur du bec
+
+Y a-t-il une relation entre la longueur des ailes et la longueur du bec ? Ces mesures varient-elles en fonction de l'espèce ?
+
+```{r, relation longueur ailes vs longueur bec, echo=FALSE}
+
+# Ajouter une variable couleur 
+pingouins$couleur[pingouins$espece == "Adelie"] <- "darkorange"
+pingouins$couleur[pingouins$espece == "Chinstrap"] <- "purple"
+pingouins$couleur[pingouins$espece == "Gentoo"] <- "cyan4"
+
+# Scatter plot : longueur des ailes vs longueur du bec
+plot(x = pingouins$longueur_aile_mm, y = pingouins$longueur_bec_mm,
+     col = pingouins$couleur,
+     pch = 20,
+     main = "Relation entre la longueur des ailes et la longueur du bec",
+     xlab = "Longueur des ailes (mm)",
+     ylab = "Longueur du bec (mm)")
+legend(legend = sort(unique(pingouins$espece)),
+       x = 215,
+       y = 40,
+       col = c("darkorange", "purple", "cyan4"),
+       pch = 19)
+```
