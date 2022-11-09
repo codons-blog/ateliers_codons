@@ -22,7 +22,10 @@ barplot(sort(table(pingouins$espece), decreasing = TRUE),
         ylab = "Nombre d'individus par espèce",
         ylim = c(0, 200))
 
+
 # Boxplot : ratio du bec en fonction de l'espece
+pingouins$ratio_bec <- round(pingouins$longueur_bec_mm / pingouins$hauteur_bec_mm,
+                             digits = 2)
 boxplot(pingouins$ratio_bec ~ pingouins$espece,
         col = NA,
         border = c("Adelie" = "darkorange",

@@ -1,0 +1,95 @@
+---
+title: "Pingouins de l'archipel Palmer"
+author: Jonathan Kitt
+date: 2022-11-14
+output:
+  powerpoint_presentation
+---
+
+```{r, importer donnees, echo=FALSE}
+# Importer les donnees sans afficher le code
+pingouins <- read.csv("../data/pingouins_propre.csv")
+```
+
+---
+
+Le fichier `pingouins.csv` contient des mesures pour **trois espèces** de pingouins vivant sur **trois îles** l'Archipel Palmer en Antarctique.
+
+
+![](../figs/pingouins.png){width="20%"}
+
+---
+
+Les individus se répartissent de la façon suivante : 
+
+```{r, repartition individus, echo=FALSE, comment=""}
+# Tableau de la répartition des individus
+table(pingouins$espece, pingouins$ile)
+```
+
+# Nombre d'individus par espèce 
+
+```{r, nombre individus, echo=FALSE}
+# Barplot : nombre d'individus par espece 
+barplot(sort(table(pingouins$espece), decreasing = TRUE),
+        col = c("Adelie" = "darkorange",
+                "Chinstrap" = "cyan4",
+                "Gentoo" = "purple"),
+        border = NA,
+        ylab = "Nombre d'individus par espèce",
+        ylim = c(0, 200))
+```
+
+# Rapport entre la longueur et la hauteur du bec
+
+```{r, ratio bec, echo=FALSE}
+# Calculer le ratio entre la longueur et la hauteur du bec
+pingouins$ratio_bec <- round(pingouins$longueur_bec_mm / pingouins$hauteur_bec_mm,
+                             digits = 2)
+
+# Boxplot : ratio du bec en fonction de l'espece
+boxplot(pingouins$ratio_bec ~ pingouins$espece,
+        col = NA,
+        border = c("Adelie" = "darkorange",
+                   "Chinstrap" = "cyan4",
+                   "Gentoo" = "purple"),
+        pch = 20,
+        xlab = "",
+        ylab = "Ratio")
+```
+
+# Distribution de la masse corporelle
+
+```{r, distribution masse, echo=FALSE}
+# Histogramme : distribution de la masse corporelle
+hist(pingouins$masse_corporelle_g / 1000,
+     breaks = 20,
+     col = "lightblue",
+     border = "darkblue",
+     ylim = c(0, 50),
+     xlab = "Masse (kgs)",
+     ylab = "Fréquence")
+```
+
+# Relation entre la longueur des ailes et la longueur du bec
+
+```{r, relation longueur ailes vs longueur bec, echo=FALSE}
+
+# Ajouter une variable couleur 
+pingouins$couleur[pingouins$espece == "Adelie"] <- "darkorange"
+pingouins$couleur[pingouins$espece == "Chinstrap"] <- "purple"
+pingouins$couleur[pingouins$espece == "Gentoo"] <- "cyan4"
+
+# Scatter plot : longueur des ailes vs longueur du bec
+plot(x = pingouins$longueur_aile_mm, y = pingouins$longueur_bec_mm,
+     col = pingouins$couleur,
+     pch = 20,
+     xlab = "Longueur des ailes (mm)",
+     ylab = "Longueur du bec (mm)")
+legend(legend = sort(unique(pingouins$espece)),
+       x = 215,
+       y = 40,
+       col = c("darkorange", "purple", "cyan4"),
+       pch = 19,
+       cex = 0.75)
+```
