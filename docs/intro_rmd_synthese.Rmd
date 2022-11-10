@@ -1,0 +1,116 @@
+---
+title: "Introduction à R Markdown"
+output: pdf_document
+---
+
+# Introduction
+
+<br>
+
+- R Markdown permet de créer des documents contenant du texte, du code et des graphiques.  
+
+- Lorsqu'un fichier R Markdown (`.Rmd`) est compilé, le format Markdown et le code sont évalués et un fichier de sortie (`.doc`, `.pdf`, `.html`, ...) est généré.
+
+# Les bases de R Markdown
+
+Pour créer un fichier `R Markdown`, cliquez sur *File* > *New File* > *R Markdown* et choisissez *Create Empty Document*.
+
+## L'en-tête
+
+Un fichier `Rmd` doit débuter par un en-tête encadré par trois tirets et contenant un *titre*, un *auteur*, une *date* et le *format de sortie* : 
+
+```{r, eval=FALSE}
+---
+title: "Titre du document"  
+author: Auteur du document
+date: 2022-11-14
+output: html_document
+---
+```
+
+## Mettre en forme le texte
+
+|                               |                         |
+|-------------------------------|-------------------------|
+| \*italiques\*                 | *italiques*             |
+| \*\*gras\*\*                  | **gras**                |
+| \*\*\*italiques et gras\*\*\* | ***italiques et gras*** |
+| \~\~barré\~\~                 | ~~barré~~               |
+| \[texte](lien)                | [texte](lien)           |
+| texte \^exposant\^            | texte ^exposant^        |
+| texte \~indice \~             | texte ~indice~          |
+| \`code\`                      | `code`                  |
+| \***                          | ligne horizontale       |
+
+## Titres
+
+Pour insérer des titres, utilisez des `#` : 
+
+```{r, echo=TRUE, eval=FALSE}
+# Titre
+## Sous-titre
+### Paragraphe
+```
+
+## Listes
+
+```{r, eval=FALSE}
+* item a  
+* item b  
+    + item b1
+    + item b2
+```
+
+## Tableaux
+
+```{r, eval=FALSE}
+| col1 | col2 | col3 |
+| ---- | ---- | ---- |
+| A    | 1    | ech1 |
+```
+
+## Equations
+
+```{r, eval=FALSE}
+Un cercle de rayon $r$ a une aire $A = \pi \times r^{2}$ 
+```
+
+## Images
+
+```{r, eval=FALSE}
+![texte](chemin){width = "50%"}
+```
+
+# Document dynamique
+
+## Exécuter du code dans le texte
+
+```{r, eval=FALSE}
+La racine carrée de 20 est **`r sqrt(20)`**
+```
+
+## Insérer un bloc de code (`Ctrl + Alt + I`)
+
+Paramètres d'un bloc de code : `{r, eval = FALSE}` par exemple
+
+| option  | par défaut | effet                                  |
+|---------|------------|----------------------------------------|
+| eval    | TRUE       | évaluer le code et inclure le résultat |
+| echo    | TRUE       | afficher le code avec le résultat      |
+| warning | TRUE       | afficher les messages d'avertissement  |
+| error   | FALSE      | afficher les messages d'erreur         |
+
+## Table des matières
+
+```{r, eval=FALSE}
+---
+title: "Titre du document"  
+author: Auteur du document
+date: 2022-11-14
+output: 
+  html_document:
+    toc: true
+---
+```
+
+# Compiler un document (`Ctrl + Shift + K`)
