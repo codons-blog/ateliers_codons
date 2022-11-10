@@ -1,5 +1,5 @@
 ---
-title: "Premiers pas avec R et RStudio"
+title: "Introduction à R Markdown"
 output: pdf_document
 ---
 
@@ -7,10 +7,7 @@ output: pdf_document
 
 <br>
 
-- R est un **langage** de programmation statistique.  
+- R Markdown permet de créer des documents contenant du texte, du code et des graphiques.  
 
-- On désigne également par R le **logiciel** qui utilise ce langage.  
+- Lorsqu'un fichier R Markdown (`.Rmd`) est compilé, le format Markdown et le code sont évalués et un fichier de sortie (`.doc`, `.pdf`, `.html`, ...) est généré.
 
-- **RStudio** est une interface graphique permettant d'interagir avec R.
-
-![](E:/ateliers_codons/ateliers-codons.netlify/posts/02-premiers-pas-avec-r/img/rstudio_10.png)
